@@ -235,7 +235,7 @@ TimeShift is **completely offline**. Every conversion happens locally in your br
 - ❌ No data stored outside your browser
 - ✅ All data stays 100% on your device
 
-[Read the full Privacy Policy →](chrome/privacy-policy.html)
+[Read the full Privacy Policy →](https://sheikhabirali.netlify.app/timeshift-privacy)
 
 ---
 
