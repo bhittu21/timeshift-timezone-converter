@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeShift</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ===== ROOT ===== */
+    :root {
+      --bg:        #090b12;
+      --surface:   #111522;
+      --surface2:  #1a1f30;
+      --border:    rgba(255,255,255,0.07);
+      --accent:    #4f8ef7;
+      --accent2:   #7eb3ff;
+      --text:      #dde3f0;
+      --muted:     #6b7a99;
+      --dim:       #3a4460;
+      --success:   #4fd1a0;
+      --warning:   #f6a642;
+      --purple:    #a78bfa;
+      --radius:    12px;
+    }
+
+    html { width: 380px; }
+
+    body {
+      width: 380px;
+      min-height: 480px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      padding: 18px 20px 14px;
+      background: linear-gradient(160deg, #0d1525 0%, #090b12 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 120px; height: 120px;
+      background: radial-gradient(circle, rgba(79,142,247,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-icon {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, #2563eb, #4f8ef7);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(79,142,247,0.4);
+    }
+    .logo-text {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+    .logo-text span {
+      color: var(--accent2);
+    }
+    .tagline {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      padding: 18px 20px;
+    }
+
+    /* ===== SECTION LABEL ===== */
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    /* ===== TZ SELECTOR ===== */
+    .tz-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .tz-block.active-block {
+      border-color: rgba(79,142,247,0.4);
+      background: rgba(79,142,247,0.05);
+    }
+
+    .tz-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tz-abbr-badge {
+      background: rgba(79,142,247,0.15);
+      color: var(--accent2);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 4px 8px;
+      border-radius: 6px;
+      min-width: 42px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .tz-info { flex: 1; min-width: 0; }
+    .tz-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tz-offset {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .tz-edit-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .tz-edit-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+      background: rgba(79,142,247,0.1);
+    }
+
+    /* Search dropdown */
+    .tz-search-wrap {
+      display: none;
+      margin-top: 10px;
+    }
+    .tz-search-wrap.open {
+      display: block;
+      animation: fadeDown 0.15s ease;
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .tz-search-input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--dim);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 8px 12px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .tz-search-input:focus {
+      border-color: var(--accent);
+    }
+    .tz-search-input::placeholder { color: var(--dim); }
+
+    .tz-dropdown {
+      max-height: 160px;
+      overflow-y: auto;
+      margin-top: 6px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--dim) transparent;
+    }
+    .tz-option {
+      padding: 9px 12px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.1s;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .tz-option:last-child { border-bottom: none; }
+    .tz-option:hover, .tz-option.highlighted {
+      background: rgba(79,142,247,0.12);
+    }
+    .tz-option-label { font-size: 12px; color: var(--text); }
+    .tz-option-abbr {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent2);
+      background: rgba(79,142,247,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ===== SWAP BUTTON ===== */
+    .swap-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2px 0;
+      position: relative;
+    }
+    .swap-row::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+    .swap-btn {
+      position: relative;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      z-index: 1;
+    }
+    .swap-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+      background: rgba(79,142,247,0.1);
+      transform: rotate(180deg);
+    }
+
+    /* ===== TIME INPUT ===== */
+    .time-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .time-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .time-input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--dim);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+    .time-input:focus { border-color: var(--accent); }
+    .time-input::placeholder { color: var(--dim); font-weight: 400; font-size: 16px; }
+
+    .ampm-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ampm-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      transition: all 0.15s;
+    }
+    .ampm-btn.active {
+      background: rgba(79,142,247,0.2);
+      border-color: var(--accent);
+      color: var(--accent2);
+    }
+
+    .date-input {
+      margin-top: 8px;
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--dim);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 8px 12px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .date-input:focus { border-color: var(--accent); }
+
+    /* ===== CONVERT BUTTON ===== */
+    .convert-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #2563eb 0%, #4f8ef7 100%);
+      border: none;
+      border-radius: var(--radius);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+      box-shadow: 0 4px 20px rgba(79,142,247,0.35);
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .convert-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background 0.15s;
+    }
+    .convert-btn:hover::after { background: rgba(255,255,255,0.06); }
+    .convert-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(79,142,247,0.45); }
+    .convert-btn:active { transform: translateY(0); }
+
+    /* ===== RESULT ===== */
+    .result-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 10px;
+      display: none;
+      animation: fadeDown 0.2s ease;
+    }
+    .result-box.visible { display: block; }
+
+    .result-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .result-side {
+      flex: 1;
+      text-align: center;
+    }
+    .result-time {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .result-from .result-time { color: var(--text); }
+    .result-to .result-time { color: var(--accent2); }
+    .result-tz {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-top: 3px;
+    }
+    .result-city {
+      font-size: 10px;
+      color: var(--dim);
+      margin-top: 1px;
+    }
+    .result-arrow {
+      font-size: 22px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .day-chip {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      width: 100%;
+      text-align: center;
+    }
+    .day-same { background: rgba(79,209,160,0.12); color: var(--success); }
+    .day-next { background: rgba(246,166,66,0.12); color: var(--warning); }
+    .day-prev { background: rgba(167,139,250,0.12); color: var(--purple); }
+
+    .copy-btn {
+      width: 100%;
+      background: rgba(79,142,247,0.1);
+      border: 1px solid rgba(79,142,247,0.25);
+      color: var(--accent2);
+      padding: 9px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.02em;
+    }
+    .copy-btn:hover {
+      background: rgba(79,142,247,0.2);
+      border-color: var(--accent);
+    }
+
+    .error-msg {
+      display: none;
+      color: #fc8181;
+      font-size: 12px;
+      text-align: center;
+      padding: 8px;
+      background: rgba(252,129,129,0.08);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .error-msg.visible { display: block; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 10px 20px 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-text {
+      font-size: 10px;
+      color: var(--dim);
+    }
+    .footer-text a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .footer-text a:hover { color: var(--accent2); }
+
+    .now-btn {
+      font-size: 11px;
+      color: var(--muted);
+      background: none;
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .now-btn:hover {
+      color: var(--accent2);
+      border-color: var(--accent);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+
+    /* Default badge for auto-detected */
+    .auto-badge {
+      font-size: 9px;
+      background: rgba(79,209,160,0.15);
+      color: var(--success);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-left: 6px;
+    }
+    /* Author link */
+    .author-link {
+      color: var(--accent2);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+    .author-link:hover { color: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-row">
+      <div class="logo-icon">⏱</div>
+      <div>
+        <div class="logo-text">Time<span>Shift</span></div>
+      </div>
+    </div>
+    <div class="tagline">Instant timezone conversion · By <a href="https://www.linkedin.com/in/sheikhabirali/" class="author-link">Sheikh Abir Ali</a></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- FROM TIMEZONE -->
+    <div class="section-label">From Timezone</div>
+    <div class="tz-block" id="from-block">
+      <div class="tz-row">
+        <div class="tz-abbr-badge" id="from-abbr">BDT</div>
+        <div class="tz-info">
+          <div class="tz-name" id="from-name">Dhaka / Bangladesh <span class="auto-badge" id="from-auto-badge">AUTO</span></div>
+          <div class="tz-offset" id="from-offset">UTC +6:00</div>
+        </div>
+        <button class="tz-edit-btn" id="from-edit-btn">Change</button>
+      </div>
+      <div class="tz-search-wrap" id="from-search-wrap">
+        <input class="tz-search-input" id="from-search" type="text" placeholder="Search city or timezone…" autocomplete="off" />
+        <div class="tz-dropdown" id="from-dropdown"></div>
+      </div>
+    </div>
+
+    <!-- SWAP -->
+    <div class="swap-row">
+      <button class="swap-btn" id="swap-btn" title="Swap timezones">⇅</button>
+    </div>
+
+    <!-- TO TIMEZONE -->
+    <div class="section-label" style="margin-top:2px;">To Timezone</div>
+    <div class="tz-block" id="to-block">
+      <div class="tz-row">
+        <div class="tz-abbr-badge" id="to-abbr">EST</div>
+        <div class="tz-info">
+          <div class="tz-name" id="to-name">New York / Miami</div>
+          <div class="tz-offset" id="to-offset">UTC −5:00</div>
+        </div>
+        <button class="tz-edit-btn" id="to-edit-btn">Change</button>
+      </div>
+      <div class="tz-search-wrap" id="to-search-wrap">
+        <input class="tz-search-input" id="to-search" type="text" placeholder="Search city or timezone…" autocomplete="off" />
+        <div class="tz-dropdown" id="to-dropdown"></div>
+      </div>
+    </div>
+
+    <!-- TIME INPUT -->
+    <div class="section-label">Time to Convert</div>
+    <div class="time-block">
+      <div class="time-row">
+        <input class="time-input" id="time-input" type="text"
+               placeholder="e.g. 10:30" maxlength="5" autocomplete="off" inputmode="numeric" />
+        <div class="ampm-toggle">
+          <button class="ampm-btn active" id="btn-am">AM</button>
+          <button class="ampm-btn" id="btn-pm">PM</button>
+        </div>
+      </div>
+      <input class="date-input" id="date-input" type="date" />
+    </div>
+
+    <!-- ERROR -->
+    <div class="error-msg" id="error-msg"></div>
+
+    <!-- CONVERT BUTTON -->
+    <button class="convert-btn" id="convert-btn">Convert Time →</button>
+
+    <!-- RESULT -->
+    <div class="result-box" id="result-box">
+      <div class="result-main">
+        <div class="result-side result-from">
+          <div class="result-time" id="res-from-time">—</div>
+          <div class="result-tz" id="res-from-tz">—</div>
+          <div class="result-city" id="res-from-city">—</div>
+        </div>
+        <div class="result-arrow">→</div>
+        <div class="result-side result-to">
+          <div class="result-time" id="res-to-time">—</div>
+          <div class="result-tz" id="res-to-tz">—</div>
+          <div class="result-city" id="res-to-city">—</div>
+        </div>
+      </div>
+      <div class="day-chip" id="res-day-chip">—</div>
+      <button class="copy-btn" id="copy-btn">📋 Copy Result</button>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-text">All conversions are local &amp; private</div>
+    <button class="now-btn" id="now-btn">Use Current Time</button>
+  </div>
+
+  <script src="timezones.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeShift – Privacy Policy</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      max-width: 680px;
+      margin: 60px auto;
+      padding: 0 24px;
+      color: #2d3748;
+      line-height: 1.7;
+    }
+    h1 { font-size: 28px; color: #1a202c; margin-bottom: 6px; }
+    h2 { font-size: 18px; color: #2b6cb0; margin: 28px 0 8px; }
+    .badge {
+      display: inline-block;
+      background: #ebf8ff;
+      color: #2b6cb0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: 0.04em;
+    }
+    .highlight {
+      background: #f0fff4;
+      border-left: 3px solid #48bb78;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      color: #276749;
+    }
+    p { margin-bottom: 12px; color: #4a5568; }
+    ul { padding-left: 20px; color: #4a5568; }
+    li { margin-bottom: 6px; }
+    .last-updated { font-size: 12px; color: #a0aec0; margin-top: 40px; }
+    a { color: #2b6cb0; }
+  </style>
+</head>
+<body>
+  <h1>⏱ TimeShift</h1>
+  <div class="badge">Privacy Policy</div>
+  <p style="font-size:13px;color:#718096;margin-bottom:8px;">Developed by <strong>Sheikh Abir Ali</strong></p>
+
+  <div class="highlight">
+    <strong>Short version:</strong> TimeShift collects absolutely no personal data.
+    All timezone conversions happen entirely on your device. Nothing is ever sent anywhere.
+  </div>
+
+  <h2>What data we collect</h2>
+  <p><strong>None.</strong> TimeShift does not collect, transmit, store on any server, or share any personal information, browsing data, or usage data.</p>
+
+  <h2>How the extension works</h2>
+  <p>TimeShift performs all timezone calculations locally in your browser using JavaScript's built-in <code>Intl</code> API. No external servers, APIs, or network requests are made at any point.</p>
+  <p>The only data stored is your timezone preferences (your chosen "From" and "To" timezones), which are saved using the browser's built-in <code>storage.sync</code> API. This syncs your preferences across your own devices. Your browser manages this sync — TimeShift never touches or reads this data beyond your own device.</p>
+
+  <h2>Permissions explained</h2>
+  <ul>
+    <li><strong>contextMenus</strong> — Adds the "Convert Time" option when you right-click selected text.</li>
+    <li><strong>storage</strong> — Saves your timezone preferences so you don't have to re-select them each time.</li>
+    <li><strong>activeTab</strong> — Allows showing the conversion overlay on the current page after a right-click conversion. We do not read page content.</li>
+    <li><strong>tabs</strong> — Required to inject the overlay UI into the page. No page data is read or transmitted.</li>
+  </ul>
+
+  <h2>No analytics, no tracking</h2>
+  <p>TimeShift contains no analytics software, no advertising SDKs, no tracking pixels, and no third-party code of any kind. The extension is 100% self-contained.</p>
+
+  <h2>Children's privacy</h2>
+  <p>Since we collect no data, TimeShift is safe for users of all ages.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If we ever change this privacy policy, we will update it here and bump the extension version. We will never introduce data collection without clearly notifying users first.</p>
+
+  <h2>Contact</h2>
+  <p>
+    <strong>Sheikh Abir Ali</strong><br>
+    Email: <a href="mailto:sheikhabirali@gmail.com">sheikhabirali@gmail.com</a><br>
+    LinkedIn: <a href="https://www.linkedin.com/in/sheikhabirali/" target="_blank">linkedin.com/in/sheikhabirali</a><br>
+    Portfolio: <a href="https://sheikhabirali.netlify.app/" target="_blank">https://sheikhabirali.netlify.app/</a><br>
+    You can also reach out via the browser add-on store support tab on the TimeShift extension page.
+  </p>
+
+  <p class="last-updated">Developer: Sheikh Abir Ali &nbsp;·&nbsp; Last updated: February 2026</p>
+</body>
+</html>
