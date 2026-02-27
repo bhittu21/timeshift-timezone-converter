@@ -108,7 +108,7 @@ No new tab. No searching. You never leave the page.
 ## 🗂️ Repository Structure
 
 ```
-timeshift-timezone-converter/
+timeshift/
 │
 ├── chrome/                     # Chrome extension (Manifest V3)
 │   ├── manifest.json           # MV3 manifest with service worker
@@ -153,7 +153,7 @@ timeshift-timezone-converter/
 ```bash
 # 1. Clone the repo
 git clone https://github.com/bhittu21/timeshift-timezone-converter.git
-cd timeshift-timezone-converter
+cd timeshift
 
 # 2. Open Chrome and go to
 chrome://extensions/
