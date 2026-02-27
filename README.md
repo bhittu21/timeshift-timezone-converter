@@ -6,7 +6,7 @@
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install%20Free-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/iaadchpnghncfnjkkehjkifilkccmeig)
 [![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-Install%20Free-FF7139?style=for-the-badge&logo=firefox&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/timeshift-timezone-converter/)
-[![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-BUSL%201.1-orange?style=for-the-badge)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-1.0.1-6366f1?style=for-the-badge)](https://github.com/bhittu21/timeshift-timezone-converter/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-f59e0b?style=for-the-badge)](CONTRIBUTING.md)
 
@@ -282,6 +282,8 @@ git push origin feature/my-improvement
 # Then open a Pull Request on GitHub
 ```
 
+> ⚠️ By contributing, you agree that your contributions will be licensed under the same BUSL 1.1 license as this project. Commercial use of any contribution requires written permission from the author.
+
 ---
 
 ## 📦 Changelog
@@ -295,12 +297,29 @@ See [CHANGELOG.md](CHANGELOG.md) for the full version history.
 - Browser API compat shim (`api` / `tsApi`) across all scripts
 - Removed broad host permissions warning on Chrome
 - Fixed date display format (DD Mon YYYY — DayName)
+- License updated to BUSL 1.1
 
 **v1.0.0** — Initial Release
 - Right-click conversion on any webpage
 - 285+ cities timezone database
 - Manual popup converter
 - Copy to clipboard
+
+---
+
+## 📄 License
+
+This project is licensed under the **Business Source License 1.1 (BUSL 1.1)**.
+
+**In plain English:**
+- ✅ You can view, fork, and contribute to the source code
+- ✅ You can use it for personal and non-commercial projects
+- ✅ You can learn from it and build upon it privately
+- ❌ You cannot copy, rebrand, or sell this as your own product
+- ❌ You cannot use it in a commercial product or service without written permission
+- 📩 For commercial licensing, contact: **sheikhabirali@gmail.com**
+
+See the full [LICENSE](LICENSE) file for legal terms.
 
 ---
 
@@ -327,12 +346,6 @@ If TimeShift saves you time, consider:
 - 🐛 **Reporting bugs** via [GitHub Issues](https://github.com/bhittu21/timeshift-timezone-converter/issues)
 - 💡 **Suggesting features** you'd find useful
 - 📢 **Sharing it** with your remote team
-
----
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
